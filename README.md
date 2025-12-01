@@ -1,1 +1,1 @@
-My Advent of Code solutions for https://adventofcode.com/2024
+My Advent of Code solutions
