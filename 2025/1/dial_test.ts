@@ -61,7 +61,7 @@ L82`;
   );
 });
 
-Deno.test(async function testInputLandOnZero() {
+Deno.test(async function testInputPointsAtZero() {
   const input = await Deno.readTextFile("./2025/1/input.txt");
   const rotations: Rotation[] = input.split("\n").map((line) => {
     return {
