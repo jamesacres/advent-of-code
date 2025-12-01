@@ -19,14 +19,20 @@ Deno.test(function exampleBlinkStoneCount25() {
 
 Deno.test(async function part1BlinkStoneCount() {
   assertEquals(
-    blink(stringToStoneCount(await Deno.readTextFile("./2024/11/input.txt")), 25),
+    blink(
+      stringToStoneCount(await Deno.readTextFile("./2024/11/input.txt")),
+      25,
+    ),
     186175,
   );
 });
 
 Deno.test(async function part2BlinkStoneCount() {
   assertEquals(
-    blink(stringToStoneCount(await Deno.readTextFile("./2024/11/input.txt")), 75),
+    blink(
+      stringToStoneCount(await Deno.readTextFile("./2024/11/input.txt")),
+      75,
+    ),
     220566831337810,
   );
 });
