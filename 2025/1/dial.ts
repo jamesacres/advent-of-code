@@ -7,34 +7,37 @@ export const numberOfZeros = (
   start: number,
   end: number,
   rotations: Rotation[],
-): number =>
+): { pointsAtZero: number; landOnZero: number; position: number } =>
   rotations.reduce((result, { direction, distance }) => {
     const fullRotations = Math.floor(distance / (end + 1));
     const leftOver = distance - (fullRotations * (end + 1));
     const difference = direction === "L" ? leftOver * -1 : leftOver;
 
     let nextPosition = result.position + difference;
-    let nextPassZero = result.passZero + fullRotations;
+    let nextPointsAtZero = result.pointsAtZero + fullRotations;
 
-    if (nextPosition === 0) {
-      nextPassZero = nextPassZero + 1;
-    } else if (nextPosition < 0) {
-      nextPassZero = nextPassZero + 1;
+    if (nextPosition < 0) {
       nextPosition = end + nextPosition + 1;
+      if (result.position !== 0 && nextPosition !== 0) {
+        nextPointsAtZero = nextPointsAtZero + 1;
+      }
     } else if (nextPosition > end) {
-      nextPassZero = nextPassZero + 1;
       nextPosition = nextPosition - end - 1;
+      if (result.position !== 0 && nextPosition !== 0) {
+        nextPointsAtZero = nextPointsAtZero + 1;
+      }
     }
 
     let nextLandOnZero = result.landOnZero;
     if (nextPosition === 0) {
       nextLandOnZero = nextLandOnZero + 1;
+      nextPointsAtZero = nextPointsAtZero + 1;
     }
 
     return {
       ...result,
-      passZero: nextPassZero,
+      pointsAtZero: nextPointsAtZero,
       landOnZero: nextLandOnZero,
       position: nextPosition,
     };
-  }, { passZero: 0, landOnZero: 0, position: start }).landOnZero;
+  }, { pointsAtZero: 0, landOnZero: 0, position: start });
