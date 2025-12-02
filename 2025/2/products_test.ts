@@ -4,7 +4,7 @@ import { isValid } from "./products.ts";
 for (const testCase of ["55", "6464", "123123"]) {
   Deno.test(function isInvalidMirrorInput() {
     assertEquals(
-      isValid(testCase),
+      isValid(testCase, 1),
       false,
     );
   });
@@ -13,7 +13,7 @@ for (const testCase of ["55", "6464", "123123"]) {
 for (const testCase of ["0123", "01234", "012345"]) {
   Deno.test(function isInvalidZeroInput() {
     assertEquals(
-      isValid(testCase),
+      isValid(testCase, 1),
       false,
     );
   });
@@ -22,7 +22,7 @@ for (const testCase of ["0123", "01234", "012345"]) {
 for (const testCase of ["123", "1234", "12345"]) {
   Deno.test(function isValidInput() {
     assertEquals(
-      isValid(testCase),
+      isValid(testCase, 1),
       true,
     );
   });
@@ -37,7 +37,7 @@ Deno.test(function exampleSumInvalid() {
   )
     .reduce((result: { invalidIds: number[] }, [start, end]) => {
       for (let id = start; id <= end; id = id + 1) {
-        if (!isValid(`${id}`)) {
+        if (!isValid(`${id}`, 1)) {
           result.invalidIds.push(id);
         }
       }
@@ -54,7 +54,7 @@ Deno.test(async function inputSumInvalid() {
   const result = input.split(",").map((range) => range.split("-").map(Number))
     .reduce((result: { invalidIds: number[] }, [start, end]) => {
       for (let id = start; id <= end; id = id + 1) {
-        if (!isValid(`${id}`)) {
+        if (!isValid(`${id}`, 1)) {
           result.invalidIds.push(id);
         }
       }
@@ -63,5 +63,31 @@ Deno.test(async function inputSumInvalid() {
   assertEquals(
     result.invalidIds.reduce((result, id) => result + Number(id), 0),
     28844599675,
+  );
+});
+
+for (const testCase of ["555", "646464", "123123123"]) {
+  Deno.test(function isInvalidRepeatedInput() {
+    assertEquals(
+      isValid(testCase, 2),
+      false,
+    );
+  });
+}
+
+Deno.test(async function inputSumInvalidV2() {
+  const input = await Deno.readTextFile("./2025/2/input.txt");
+  const result = input.split(",").map((range) => range.split("-").map(Number))
+    .reduce((result: { invalidIds: number[] }, [start, end]) => {
+      for (let id = start; id <= end; id = id + 1) {
+        if (!isValid(`${id}`, 2)) {
+          result.invalidIds.push(id);
+        }
+      }
+      return result;
+    }, { invalidIds: [] });
+  assertEquals(
+    result.invalidIds.reduce((result, id) => result + Number(id), 0),
+    48778605167,
   );
 });
