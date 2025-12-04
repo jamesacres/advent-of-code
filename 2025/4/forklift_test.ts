@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert/equals";
-import { countAccess, setAccessForkLift, toMap } from "./forklift.ts";
+import { countAccess } from "./forklift.ts";
 
 const exampleInput = `..@@.@@@@.
 @@@.@.@.@@
