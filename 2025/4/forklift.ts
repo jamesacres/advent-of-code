@@ -1,6 +1,6 @@
 interface MapEntry {
   value: string;
-  forklift?: boolean;
+  forklift?: number;
 }
 
 interface Map {
@@ -34,24 +34,35 @@ export const perimeterValues = (map: Map, x: number, y: number) => {
 
 const ROLL = "@";
 
-export const setAccessForkLift = (map: Map) => {
+export const setAccessForkLift = (map: Map, iteration: number): number => {
+  let newForkLifts = 0;
   for (const [x, row] of Object.entries(map)) {
     for (const [y, entry] of Object.entries(row)) {
       if (
-        entry.value === ROLL &&
+        entry.value === ROLL && !entry.forklift &&
         perimeterValues(map, Number(x), Number(y)).filter((neighbour) =>
-            neighbour.value === ROLL
+            neighbour.value === ROLL &&
+            (!neighbour.forklift || neighbour.forklift === iteration)
           ).length < 4
       ) {
-        map[x][y].forklift = true;
+        map[x][y].forklift = iteration;
+        newForkLifts = newForkLifts + 1;
       }
     }
   }
+  return newForkLifts;
 };
 
-export const countAccess = (input: string) => {
+export const countAccess = (input: string, repeat: boolean = false) => {
   const map = toMap(input);
-  setAccessForkLift(map);
+  let iteration = 1;
+  if (repeat) {
+    while (setAccessForkLift(map, iteration) > 0) {
+      iteration = iteration + 1;
+    }
+  } else {
+    setAccessForkLift(map, iteration);
+  }
   return Object.values(map).reduce((result, row) => {
     return result + Object.values(row).reduce((rowTotal, entry) => {
       return entry.forklift ? rowTotal + 1 : rowTotal;
