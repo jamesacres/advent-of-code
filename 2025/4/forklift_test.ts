@@ -38,6 +38,6 @@ Deno.test(async function inputCountAccess() {
   const input = await Deno.readTextFile("./2025/4/input.txt");
   assertEquals(
     countAccess(input, true),
-    1457,
+    8310,
   );
 });
