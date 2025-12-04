@@ -34,7 +34,7 @@ Deno.test(function exampleRepeatCountAccess() {
   );
 });
 
-Deno.test(async function inputCountAccess() {
+Deno.test(async function inputRepeatCountAccess() {
   const input = await Deno.readTextFile("./2025/4/input.txt");
   assertEquals(
     countAccess(input, true),
