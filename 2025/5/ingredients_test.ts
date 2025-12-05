@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert/equals";
-import { isFresh } from "./ingredients.ts";
+import { countIdsInRanges, isFresh } from "./ingredients.ts";
 
 // fresh ingredient ID ranges, a blank line, and a list of available ingredient IDs
 const exampleInput = `3-5
@@ -53,5 +53,22 @@ Deno.test(async function inputFreshCount() {
   assertEquals(
     count,
     789,
+  );
+});
+
+Deno.test(function exampleFreshRangeCount() {
+  const { freshRanges } = parseInput(exampleInput);
+  assertEquals(
+    countIdsInRanges(freshRanges),
+    14,
+  );
+});
+
+Deno.test(async function inputFreshRangeCount() {
+  const input = await Deno.readTextFile("./2025/5/input.txt");
+  const { freshRanges } = parseInput(input);
+  assertEquals(
+    countIdsInRanges(freshRanges),
+    343329651880509,
   );
 });
