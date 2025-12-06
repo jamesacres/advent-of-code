@@ -48,3 +48,28 @@ export const compute = (problems: Problems): number[] => {
     }, problemNumbers[0]);
   });
 };
+
+export const numbersV2 = (input: string): number[][] => {
+  const result: number[][] = [[]];
+  const lines = input.split("\n");
+  for (let column = lines[0].length - 1; column >= 0; column = column - 1) {
+    let thisNumber = "";
+
+    let allSpaces = true;
+    lines.map((line) => line.split("")[column]).forEach((character) => {
+      if (character !== " ") {
+        allSpaces = false;
+      }
+      if (/[0-9]/.test(character)) {
+        thisNumber = `${thisNumber}${character}`;
+      }
+    });
+    if (allSpaces) {
+      result.push([]);
+    }
+    if (thisNumber) {
+      result[result.length - 1].push(Number(thisNumber));
+    }
+  }
+  return result;
+};
