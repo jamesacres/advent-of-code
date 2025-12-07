@@ -61,7 +61,6 @@ export const process = (map: Map) => {
       map[x][y + 1].isSplitter
     ) {
       map[x][y + 1].isSplitterActivated = true;
-      // map[x][y + 1].timelineCount = (map[x][y + 1].timelineCount || 0) + beamWeight;
       if (
         x > 0 &&
         !map[x - 1][y + 1].isSplitter
