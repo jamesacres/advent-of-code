@@ -52,3 +52,36 @@ Deno.test(async function processInput() {
     1592,
   );
 });
+
+Deno.test(function processExampleInputTimelines() {
+  const map = toMap(exampleInput);
+  process(map);
+  console.info(render(map));
+  assertEquals(
+    Object.values(map).reduce((result: MapEntry[], line) => {
+      result.push(...Object.values(line));
+      return result;
+    }, []).reduce(
+      (result, { timelineCount }) => result + (timelineCount || 0),
+      0,
+    ),
+    40,
+  );
+});
+
+Deno.test(async function processInputTimelines() {
+  const input = await Deno.readTextFile("./2025/7/input.txt");
+  const map = toMap(input);
+  process(map);
+  console.info(render(map));
+  assertEquals(
+    Object.values(map).reduce((result: MapEntry[], line) => {
+      result.push(...Object.values(line));
+      return result;
+    }, []).reduce(
+      (result, { timelineCount }) => result + (timelineCount || 0),
+      0,
+    ),
+    17921968177009,
+  );
+});

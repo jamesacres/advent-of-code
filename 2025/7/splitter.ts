@@ -3,6 +3,8 @@ export interface MapEntry {
   isSplitter?: boolean;
   isSplitterActivated?: boolean;
   isBeam?: boolean;
+  beamWeight?: number;
+  timelineCount?: number;
 }
 
 export interface Map {
@@ -53,25 +55,28 @@ export const process = (map: Map) => {
   const width = Object.values(map).length;
   const height = Object.values(map[0]).length;
 
-  const processBelowSplitter = (x: number, y: number) => {
+  const processBelowSplitter = (x: number, y: number, beamWeight: number) => {
     if (
       y < height - 1 &&
       map[x][y + 1].isSplitter
     ) {
       map[x][y + 1].isSplitterActivated = true;
+      // map[x][y + 1].timelineCount = (map[x][y + 1].timelineCount || 0) + beamWeight;
       if (
         x > 0 &&
         !map[x - 1][y + 1].isSplitter
       ) {
         map[x - 1][y + 1].isBeam = true;
-        processBelowSplitter(x - 1, y + 1);
+        map[x - 1][y + 1].beamWeight = (map[x - 1][y + 1].beamWeight || 0) +
+          beamWeight;
       }
       if (
         x < width - 1 &&
         !map[x + 1][y + 1].isSplitter
       ) {
         map[x + 1][y + 1].isBeam = true;
-        processBelowSplitter(x + 1, y + 1);
+        map[x + 1][y + 1].beamWeight = (map[x + 1][y + 1].beamWeight || 0) +
+          beamWeight;
       }
     }
   };
@@ -88,7 +93,13 @@ export const process = (map: Map) => {
           map[x][Number(y) - 1].isBeam)
       ) {
         entry.isBeam = true;
-        processBelowSplitter(Number(x), Number(y));
+        entry.beamWeight = (entry.beamWeight || 0) +
+          (map[x][Number(y) - 1].beamWeight || 1);
+        processBelowSplitter(Number(x), Number(y), entry.beamWeight);
+      }
+
+      if (y === maxy - 1 && entry.isBeam) {
+        entry.timelineCount = entry.beamWeight;
       }
     });
   });
