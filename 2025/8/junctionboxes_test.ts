@@ -37,7 +37,7 @@ Deno.test(function exampleMultiplySizes() {
     sortDistances(
       getDistances(exampleInput.split("\n")),
     ).slice(0, 10),
-  ).map((circuit) => {
+  ).circuits.map((circuit) => {
     const set = new Set();
     for (const [fromTo] of circuit) {
       const [from, to] = fromTo.split("-");
@@ -58,7 +58,7 @@ Deno.test(async function inputMultiplySizes() {
     sortDistances(
       getDistances(input.split("\n")),
     ).slice(0, 1000),
-  ).map((circuit) => {
+  ).circuits.map((circuit) => {
     const set = new Set();
     for (const [fromTo] of circuit) {
       const [from, to] = fromTo.split("-");
@@ -70,5 +70,53 @@ Deno.test(async function inputMultiplySizes() {
   assertEquals(
     result[0].size * result[1].size * result[2].size,
     352584,
+  );
+});
+
+Deno.test(function exampleFinalDistance() {
+  const coordinates = exampleInput.split("\n");
+  const result = makeCircuits(
+    sortDistances(
+      getDistances(coordinates),
+    ),
+  );
+  const circuit = result.circuits[0];
+  const lastEntry = circuit[circuit.length - 1];
+  const [from, to] = lastEntry[0].split("-");
+  const [fromX] = coordinates[Number(from)].split(",");
+  const [toX] = coordinates[Number(to)].split(",");
+  assertEquals(
+    result.circuits.length,
+    1,
+  );
+  assertEquals(
+    result.lastConnection[0].split("-"),
+    [from, to],
+  );
+  assertEquals(
+    Number(fromX) * Number(toX),
+    25272,
+  );
+});
+
+Deno.test(async function exampleFinalDistance() {
+  const input = await Deno.readTextFile("./2025/8/input.txt");
+  const coordinates = input.split("\n");
+  const result = makeCircuits(
+    sortDistances(
+      getDistances(coordinates),
+    ),
+  );
+  console.info("lastConnection", result.lastConnection);
+  const [from, to] = result.lastConnection[0].split("-");
+  const [fromX] = coordinates[Number(from)].split(",");
+  const [toX] = coordinates[Number(to)].split(",");
+  assertEquals(
+    result.circuits.length,
+    1,
+  );
+  assertEquals(
+    Number(fromX) * Number(toX),
+    25272,
   );
 });

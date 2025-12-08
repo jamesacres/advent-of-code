@@ -46,7 +46,10 @@ export const sortDistances = (
     aDistance - bDistance
   );
 
-export const makeCircuits = (shortestDistances: [string, number][]) => {
+export const makeCircuits = (
+  shortestDistances: [string, number][],
+): { circuits: [string, number][][]; lastConnection: [string, number] } => {
+  let lastConnection: [string, number];
   const circuits: [string, number][][] = [];
   for (const distance of shortestDistances) {
     const [connection, _value] = distance;
@@ -68,6 +71,7 @@ export const makeCircuits = (shortestDistances: [string, number][]) => {
     if (existingCircuitFrom === -1 && existingCircuitTo === -1) {
       console.warn(`create new circuit for ${from} and ${to}`);
       circuits.push([distance]);
+      lastConnection = distance;
     } else if (existingCircuitFrom === existingCircuitTo) {
       console.warn(
         `skip as both ${from} and ${to} already in same circuit ${existingCircuitFrom}`,
@@ -80,19 +84,25 @@ export const makeCircuits = (shortestDistances: [string, number][]) => {
         .sort();
       circuits[minIndex].push(...circuits[maxIndex]);
       circuits[maxIndex] = [];
+      lastConnection = distance;
     } else if (existingCircuitFrom > -1) {
       console.warn(
         `add ${to} into circuit ${existingCircuitFrom} containing ${from}`,
       );
       circuits[existingCircuitFrom].push(distance);
+      lastConnection = distance;
     } else if (existingCircuitTo > -1) {
       console.warn(
         `add ${from} into circuit ${existingCircuitTo} containing ${to}`,
       );
       circuits[existingCircuitTo].push(distance);
+      lastConnection = distance;
     } else {
       throw Error("unexpected else");
     }
   }
-  return circuits.filter((circuit) => circuit.length);
+  return {
+    lastConnection: lastConnection!,
+    circuits: circuits.filter((circuit) => circuit.length),
+  };
 };
