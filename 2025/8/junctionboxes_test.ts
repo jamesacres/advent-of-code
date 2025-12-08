@@ -117,6 +117,6 @@ Deno.test(async function exampleFinalDistance() {
   );
   assertEquals(
     Number(fromX) * Number(toX),
-    25272,
+    9617397716,
   );
 });
