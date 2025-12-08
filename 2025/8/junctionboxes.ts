@@ -69,32 +69,32 @@ export const makeCircuits = (
     );
 
     if (existingCircuitFrom === -1 && existingCircuitTo === -1) {
-      console.warn(`create new circuit for ${from} and ${to}`);
+      // console.warn(`create new circuit for ${from} and ${to}`);
       circuits.push([distance]);
       lastConnection = distance;
     } else if (existingCircuitFrom === existingCircuitTo) {
-      console.warn(
-        `skip as both ${from} and ${to} already in same circuit ${existingCircuitFrom}`,
-      );
+      // console.warn(
+      //   `skip as both ${from} and ${to} already in same circuit ${existingCircuitFrom}`,
+      // );
     } else if (existingCircuitFrom > -1 && existingCircuitTo > -1) {
-      console.warn(
-        `merge circuits ${existingCircuitFrom} containing ${from} with ${existingCircuitTo} containing ${to}`,
-      );
+      // console.warn(
+      //   `merge circuits ${existingCircuitFrom} containing ${from} with ${existingCircuitTo} containing ${to}`,
+      // );
       const [minIndex, maxIndex] = [existingCircuitFrom, existingCircuitTo]
         .sort();
       circuits[minIndex].push(...circuits[maxIndex]);
       circuits[maxIndex] = [];
       lastConnection = distance;
     } else if (existingCircuitFrom > -1) {
-      console.warn(
-        `add ${to} into circuit ${existingCircuitFrom} containing ${from}`,
-      );
+      // console.warn(
+      //   `add ${to} into circuit ${existingCircuitFrom} containing ${from}`,
+      // );
       circuits[existingCircuitFrom].push(distance);
       lastConnection = distance;
     } else if (existingCircuitTo > -1) {
-      console.warn(
-        `add ${from} into circuit ${existingCircuitTo} containing ${to}`,
-      );
+      // console.warn(
+      //   `add ${from} into circuit ${existingCircuitTo} containing ${to}`,
+      // );
       circuits[existingCircuitTo].push(distance);
       lastConnection = distance;
     } else {
