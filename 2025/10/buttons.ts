@@ -42,11 +42,27 @@ export const requirementToPositions = (requirement: number): number[] =>
 export const fewestPresses = (
   requirement: number,
   buttons: Machine["buttons"],
-) => {
-  const needPositions = requirementToPositions(requirement);
-  // Find buttons which contain those positions
-  const candidateButtons = buttons.filter((button) =>
-    button.positions.some((position) => needPositions.includes(position))
-  );
-  console.info(candidateButtons);
+): number[] => {
+  const queue: { state: number; pressed: number[] }[] = [
+    { state: 0, pressed: [] },
+  ];
+  const visited = new Set<number>([0]);
+
+  while (queue.length > 0) {
+    const { state, pressed } = queue.shift()!;
+
+    if (state === requirement) {
+      return pressed;
+    }
+
+    for (let i = 0; i < buttons.length; i++) {
+      const newState = state ^ buttons[i].value;
+      if (!visited.has(newState)) {
+        visited.add(newState);
+        queue.push({ state: newState, pressed: [...pressed, i] });
+      }
+    }
+  }
+
+  return [];
 };

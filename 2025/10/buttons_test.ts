@@ -153,5 +153,19 @@ Deno.test(function exampleRequirementToPositions() {
 
 Deno.test(function exampleFewestPresses() {
   const { requirement, buttons } = parseInput(exampleInput)[0];
-  assertEquals(fewestPresses(requirement, buttons), []);
+  const result = fewestPresses(requirement, buttons);
+  // Verify the result produces the requirement
+  assertEquals(pressButtons(result.map((i) => buttons[i])), requirement);
+  // Verify it's the minimum (2 presses for this example)
+  assertEquals(result.length, 2);
+});
+
+Deno.test(async function inputFewestPresses() {
+  const input = await Deno.readTextFile("./2025/10/input.txt");
+  let total = 0;
+  for (const machine of parseInput(input)) {
+    const { requirement, buttons } = machine;
+    total = total + fewestPresses(requirement, buttons).length;
+  }
+  assertEquals(total, 479);
 });
