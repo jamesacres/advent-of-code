@@ -1,5 +1,5 @@
 {
-  "version": "4",
+  "version": "5",
   "specifiers": {
     "jsr:@std/assert@1": "1.0.8",
     "jsr:@std/internal@^1.0.5": "1.0.5"
@@ -14,6 +14,13 @@
     "@std/internal@1.0.5": {
       "integrity": "54a546004f769c1ac9e025abd15a76b6671ddc9687e2313b67376125650dc7ba"
     }
+  },
+  "remote": {
+    "https://deno.land/x/python@0.4.3/mod.ts": "36292020f3a7e8c9774d5de7fe32e261b3b5ddfbb6689a78bb499014d40baa82",
+    "https://deno.land/x/python@0.4.3/src/ffi.ts": "9e96f50eda08a2a37adb2b51cac9db3cf71dae5ec4e6e8045af39359eff1ea97",
+    "https://deno.land/x/python@0.4.3/src/python.ts": "f6e54bd7a62a0a3589fe27bc626cfbcfa9f15787482640b18134b3c8009fdd72",
+    "https://deno.land/x/python@0.4.3/src/symbols.ts": "10947b73f1c79ffa87d55074f47b3952e5983a4af02e3c36c404567dfa7bd980",
+    "https://deno.land/x/python@0.4.3/src/util.ts": "8abfee48a2f3870401db000c66d3bb66bcc4e9a9ca947eafc0600822a5369aba"
   },
   "workspace": {
     "dependencies": [

@@ -1,6 +1,7 @@
 import { assertEquals } from "@std/assert/equals";
 import {
   fewestPresses,
+  //fewestPressesJoltage,
   parseInput,
   pressButtons,
   requirementToPositions,
@@ -54,6 +55,12 @@ Deno.test(function exampleParse() {
         value: 3,
       },
     ],
+    joltage: [
+      3,
+      5,
+      4,
+      7,
+    ],
     requirement: 6,
   }, {
     buttons: [
@@ -98,6 +105,13 @@ Deno.test(function exampleParse() {
         value: 30,
       },
     ],
+    joltage: [
+      7,
+      5,
+      12,
+      7,
+      2,
+    ],
     requirement: 8,
   }, {
     buttons: [
@@ -137,6 +151,14 @@ Deno.test(function exampleParse() {
         value: 6,
       },
     ],
+    joltage: [
+      10,
+      11,
+      11,
+      5,
+      10,
+      5,
+    ],
     requirement: 46,
   }]);
 });
@@ -154,9 +176,7 @@ Deno.test(function exampleRequirementToPositions() {
 Deno.test(function exampleFewestPresses() {
   const { requirement, buttons } = parseInput(exampleInput)[0];
   const result = fewestPresses(requirement, buttons);
-  // Verify the result produces the requirement
   assertEquals(pressButtons(result.map((i) => buttons[i])), requirement);
-  // Verify it's the minimum (2 presses for this example)
   assertEquals(result.length, 2);
 });
 
@@ -169,3 +189,23 @@ Deno.test(async function inputFewestPresses() {
   }
   assertEquals(total, 479);
 });
+
+/*
+Deno.test(function exampleFewestPressesJoltage() {
+  const { joltage, buttons } = parseInput(exampleInput)[0];
+  const result = fewestPressesJoltage(joltage, buttons);
+  assertEquals(result.length, 10);
+});
+*/
+
+/*
+Deno.test(async function inputFewestPressesJoltage() {
+  const input = await Deno.readTextFile("./2025/10/input.txt");
+  let total = 0;
+  for (const machine of parseInput(input)) {
+    const { joltage, buttons } = machine;
+    total = total + fewestPressesJoltage(joltage, buttons).length;
+  }
+  assertEquals(total, 19574);
+});
+*/
