@@ -18,7 +18,6 @@ export const findPaths = (graph: Graph, from: string, to: string) => {
 
   while (queue.length > 0) {
     const { currentNode, vistedNodes } = queue.shift()!;
-    console.info(vistedNodes);
 
     if (currentNode === to) {
       paths.push(vistedNodes);
