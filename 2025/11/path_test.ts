@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert/equals";
-import { findPaths, parseInput } from "./path.ts";
+import { countPaths, findPaths, parseInput } from "./path.ts";
 
 const exampleInput = `aaa: you hhh
 you: bbb ccc
@@ -47,4 +47,12 @@ Deno.test(function examplePaths() {
 Deno.test(async function inputPaths() {
   const input = await Deno.readTextFile("./2025/11/input.txt");
   assertEquals(findPaths(parseInput(input), "you", "out").length, 506);
+});
+
+Deno.test(async function inputPathsPart2() {
+  const input = await Deno.readTextFile("./2025/11/input.txt");
+  assertEquals(
+    countPaths(parseInput(input), "svr", "out", ["dac", "fft"]),
+    385912350172800,
+  );
 });
